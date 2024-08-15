@@ -28,7 +28,7 @@ jobs:
       # Run pytest tests
       - name: Run tests
         run: |
-          pytest
+          pytest tests/
 
       # Run flake8 static code analysis
       - name: Run flake8
