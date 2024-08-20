@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from fastapi.logger import logger
 
+
 # Pydantic models for request and response bodies
 class Molecule(BaseModel):
     identifier: int
@@ -62,6 +63,11 @@ def get_molecule(identifier: int):
          summary="Update molecule by identifier", response_description="specified molecule got updated")
 def update_molecule(identifier: int, molecule_update: MoleculeUpdate):
     """ Update molecule by identifier """
+
+    # Validate that at least one field is provided
+    if molecule_update.name is None and molecule_update.smiles is None:
+        raise HTTPException(status_code=422, detail="At least one of 'name' or 'smiles' must be provided")
+
     if identifier not in molecules:
         raise HTTPException(status_code=404, detail="Molecule not found")
 
@@ -109,6 +115,7 @@ def substructure_search(substructure: str):
 
     return matched_mols  # Return the list of matched molecules
 
+
 # Optional
 @app.post("/upload",  tags=["molecules"], summary="Reading molecules from CSV file",
           response_description="file read successfully")
@@ -146,7 +153,7 @@ async def upload_molecules(file: UploadFile = File(...)):
 
     molecules.update(new_molecules)
     return {"message": "Molecules uploaded successfully.", "molecules":
-        [{"identifier": k, **v} for k, v in new_molecules.items()]}
+            [{"identifier": k, **v} for k, v in new_molecules.items()]}
 
 
 @app.get("/", tags=["Server"])
