@@ -1,6 +1,6 @@
 name: CI
 
-# Triggers the workflow on push  request events to the main branch
+# Triggers the workflow on push and pull request events to the main branch
 on:
   push:
     branches:
