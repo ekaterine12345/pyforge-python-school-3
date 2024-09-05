@@ -1,12 +1,18 @@
 from os import getenv
 from fastapi import FastAPI, HTTPException, status, UploadFile, File
+from src.molecule.router import router as molecule_router
 from rdkit import Chem
 from io import StringIO
 import csv
 from pydantic import BaseModel
 from typing import List, Optional
+import psycopg2
 from fastapi.logger import logger
+import logging
 
+
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
 
 # Pydantic models for request and response bodies
 class Molecule(BaseModel):
@@ -31,6 +37,14 @@ molecules = {
     6: {"name": "Aspirin", "smiles": "CC(=O)Oc1ccccc1C(=O)O"}
 }
 # In-memory storage for molecules. For better testing experience there are some values in the list
+
+
+@app.get("/", tags=["Server"])
+def get_server():
+    return {"server_id": getenv("SERVER_ID", "1")}
+
+
+app.include_router(molecule_router)  # include molecule router
 
 
 @app.post("/molecules", status_code=status.HTTP_201_CREATED, tags=["molecules"], summary="Create a molecule",
@@ -154,11 +168,6 @@ async def upload_molecules(file: UploadFile = File(...)):
     molecules.update(new_molecules)
     return {"message": "Molecules uploaded successfully.", "molecules":
             [{"identifier": k, **v} for k, v in new_molecules.items()]}
-
-
-@app.get("/", tags=["Server"])
-def get_server():
-    return {"server_id": getenv("SERVER_ID", "1")}
 
 
 if __name__ == "__main__":
