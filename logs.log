@@ -1,0 +1,13 @@
+2024-09-12 19:22:25,275 - INFO - postgresql+asyncpg://admin:password@postgres:5432/molecules_db
+2024-09-12 19:23:27,637 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-12 19:23:27,769 - DEBUG - 
+def substructure_search_task(substructure):
+    return 1
+
+2024-09-12 19:24:08,570 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-12 19:25:07,123 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-12 19:25:30,020 - INFO - 
+Inside the substructure_search() function in router.py file
