@@ -127,40 +127,8 @@ async def delete_molecule(identifier: int):
             response_description="Substructure search got performed")
 async def substructure_search(substructure: str):
     logging.info("\nInside the substructure_search() function in router.py file")
-    # cache_key = f"search:{substructure}"
-    # cached_result = get_cached_result(cache_key)
-    #
-    # logging.debug(f"cache_key={cache_key}; cached_result={cached_result}")
-    #
-    # if cached_result is not None:
-    #     return {"source": "cache", "data": cached_result}
-
-    # matched_molecules = await MoleculeDao.substructure_search(substructure)
-
-    # Trigger Celery task for substructure search
-    task = substructure_search_task.delay(substructure)
-    # matched_molecules = task.get()  # Wait for the task result
+    task = substructure_search_task.delay(substructure)  
     return {"task_id": task.id, "status": task.status}
-
-    # if matched_molecules is None:
-    #     logging.debug(f"Molecules with substructure = {substructure} is not correct")
-    #     raise HTTPException(status_code=400, detail="Invalid substructure SMILES")
-    #
-    # if not matched_molecules:
-    #     logging.debug(f"Molecules with substructure = {substructure} was not found")
-    #     set_cache(cache_key, {}, expiration=120)
-    #     return {"source": "database", "data": []}
-
-    # logging.info(f"Matched molecules for substructure = {substructure} are {matched_molecules}")
-
-    # Convert Molecule objects to a dictionary with identifier as the key
-    # matched_molecules_dicts = {molecule.identifier: molecule.to_dict() for molecule in matched_molecules}
-    #
-    # logging.info(f"Matched molecules for substructure = {substructure} are "
-    #              f"matched_molecules_dicts = {matched_molecules_dicts}")
-    #
-    # set_cache(cache_key, matched_molecules_dicts, expiration=300)
-    # return {"source": "database", "data": list(matched_molecules_dicts.values())}
 
 
 @router.get("/mol/tasks/{task_id}")
