@@ -127,7 +127,9 @@ async def delete_molecule(identifier: int):
             response_description="Substructure search got performed")
 async def substructure_search(substructure: str):
     logging.info("\nInside the substructure_search() function in router.py file")
-    task = substructure_search_task.delay(substructure)  
+    # Trigger Celery task for substructure search
+    task = substructure_search_task.delay(substructure)
+    # matched_molecules = task.get()  # Wait for the task result
     return {"task_id": task.id, "status": task.status}
 
 
