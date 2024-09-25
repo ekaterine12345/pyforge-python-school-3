@@ -1,5 +1,13 @@
 import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,  # Set to DEBUG to capture all log levels
+    filename="logs.log",
+    filemode="w",  # Overwrites the file every time the program runs
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class Settings(BaseSettings):
@@ -17,6 +25,8 @@ settings = Settings()
 
 
 def get_db_url():
+    logging.info(f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
+           f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}")
     return (
         f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
         f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
