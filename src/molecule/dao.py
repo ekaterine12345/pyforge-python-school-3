@@ -7,7 +7,7 @@ from rdkit import Chem
 # from molecule.models import Molecule
 # from database import async_session_maker
 # from dao.base import BaseDAO
-import psycopg2
+# import psycopg2
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 import logging
@@ -21,12 +21,15 @@ class MoleculeDao(BaseDAO):
     @classmethod
     async def get_all_molecules(cls, limit: Optional[int] = None) -> Iterator[Molecule]:
         async with async_session_maker() as session:
-            logging.info(f"in dao.pu file - get_all_molecules function; limit = {limit}")
+            logging.info(f"In the dao.py file - get_all_molecules function; limit = {limit} [2]")
+            logging.info(f"in the dao.py file - cls.model = {cls.model}")
             query = select(cls.model)
+            logging.info(f"In the dao.py file - query - {query}")
             if limit:
                 query = query.limit(limit)
             molecules = await session.execute(query)
-            # print(cls)
+            logging.info(f"in dao.py file - molecules - {molecules}")
+            print(cls)
             # return molecules.scalars().all()
             for molecule in molecules.scalars():
                 logging.info(f"Molecule {molecule}")

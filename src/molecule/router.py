@@ -1,15 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from src.molecule.request_body import Molecule, MoleculeUpdate
-# from molecule.request_body import Molecule, MoleculeUpdate
-from typing import List
+from typing import List, Dict
 from src.molecule.dao import MoleculeDao
-# from molecule.dao import MoleculeDao
 from io import StringIO
 import csv
-# from src.molecule.schema import DrugResponse, DrugAdd
 import logging
 import os
 from typing import Iterator, Optional
+import redis
+import json
+from src.molecule.celery_tasks import substructure_search_task
+from celery.result import AsyncResult
+from src.molecule.celery_worker import celery
+from src.molecule.redis_utils import redis_client, get_cached_result, set_cache
+
 
 router = APIRouter(tags=["Molecules"])
 # logging.basicConfig(level=logging.INFO, filename="logs.log", filemode="w")
@@ -32,27 +36,47 @@ async def add_molecule(molecule: Molecule):
 
 
 @router.get("/mol/molecules", status_code=status.HTTP_200_OK, summary="Retrieve all molecules",
-            response_description="All molecules returned")
+            response_model=Dict, response_description="All molecules returned")
 async def get_molecules(limit: Optional[int] = None):
     """ Retrieve all molecules """
-
-    print(os.getcwd())
     logging.info("\n")
     logging.info("Inside the get_molecules() function in router.py file")
 
+    cache_key = f"get_molecules:{limit}"
+    cached_result = get_cached_result(cache_key)
+    logging.debug(f"cache_key={cache_key}; cached_result={cached_result}")
+
+    if cached_result:
+        return {"source": "cache", "data": cached_result}
+
+    # print(os.getcwd())
     molecules = []
     async for molecule in MoleculeDao.get_all_molecules(limit=limit):
         molecules.append(molecule)
 
     logging.info(f"Molecules are {molecules}")
-    return molecules
+    # Convert Molecule objects to a dictionary with identifier as the key
+    molecules_dicts = {molecule.identifier: molecule.to_dict() for molecule in molecules}
+
+    logging.info(f"Molecules for limit = {limit} are molecules_dicts = {molecules_dicts}")
+
+    set_cache(cache_key, molecules_dicts, expiration=300)
+    return {"source": "database", "data": molecules_dicts}
 
 
-@router.get("/mol/molecules/{identifier}", response_model=Molecule, status_code=status.HTTP_200_OK,
+@router.get("/mol/molecules/{identifier}", response_model=Dict, status_code=status.HTTP_200_OK,
             summary="Retrieve molecule by identifier", response_description="Specified molecule returned")
 async def get_molecule(identifier: int):
     """ Retrieve molecule by identifier """
     logging.info("\nInside the get_molecule() function in router.py file")
+
+    cache_key = f"get_molecule:{identifier}"
+    cached_result = get_cached_result(cache_key)
+    logging.debug(f"cache_key={cache_key}; cached_result={cached_result}")
+
+    if cached_result:
+        return {"source": "cache", "data": cached_result}
+
     molecule = await MoleculeDao.get_molecule_by_id(identifier)
 
     if not molecule:
@@ -60,7 +84,8 @@ async def get_molecule(identifier: int):
         raise HTTPException(status_code=404, detail="Molecule not found")
 
     logging.info(f"Molecule is {molecule}")
-    return molecule
+    set_cache(cache_key, molecule.to_dict(), expiration=120)
+    return {"source": "database", "data": molecule.to_dict()}
 
 
 @router.put("/mol/molecules/{identifier}", response_model=Molecule, summary="Update molecule by identifier",
@@ -98,16 +123,55 @@ async def delete_molecule(identifier: int):
     return molecule
 
 
-@router.get("/mol/search", response_model=List[Molecule], summary="Substructure search by substructure",
+@router.get("/mol/search", response_model=Dict, summary="Substructure search by substructure",
             response_description="Substructure search got performed")
 async def substructure_search(substructure: str):
     logging.info("\nInside the substructure_search() function in router.py file")
-    matched_molecules = await MoleculeDao.substructure_search(substructure)
-    if matched_molecules is None:
-        logging.debug(f"Molecules with substructure = {substructure} was not found")
-        raise HTTPException(status_code=400, detail="Invalid substructure SMILES")
-    logging.info(f"Matched molecules for substructure = {substructure} are {matched_molecules}")
-    return matched_molecules
+    # cache_key = f"search:{substructure}"
+    # cached_result = get_cached_result(cache_key)
+    #
+    # logging.debug(f"cache_key={cache_key}; cached_result={cached_result}")
+    #
+    # if cached_result is not None:
+    #     return {"source": "cache", "data": cached_result}
+
+    # matched_molecules = await MoleculeDao.substructure_search(substructure)
+
+    # Trigger Celery task for substructure search
+    task = substructure_search_task.delay(substructure)
+    # matched_molecules = task.get()  # Wait for the task result
+    return {"task_id": task.id, "status": task.status}
+
+    # if matched_molecules is None:
+    #     logging.debug(f"Molecules with substructure = {substructure} is not correct")
+    #     raise HTTPException(status_code=400, detail="Invalid substructure SMILES")
+    #
+    # if not matched_molecules:
+    #     logging.debug(f"Molecules with substructure = {substructure} was not found")
+    #     set_cache(cache_key, {}, expiration=120)
+    #     return {"source": "database", "data": []}
+
+    # logging.info(f"Matched molecules for substructure = {substructure} are {matched_molecules}")
+
+    # Convert Molecule objects to a dictionary with identifier as the key
+    # matched_molecules_dicts = {molecule.identifier: molecule.to_dict() for molecule in matched_molecules}
+    #
+    # logging.info(f"Matched molecules for substructure = {substructure} are "
+    #              f"matched_molecules_dicts = {matched_molecules_dicts}")
+    #
+    # set_cache(cache_key, matched_molecules_dicts, expiration=300)
+    # return {"source": "database", "data": list(matched_molecules_dicts.values())}
+
+
+@router.get("/mol/tasks/{task_id}")
+async def get_task_result(task_id: str):
+    task_result = AsyncResult(task_id, app=celery)
+    if task_result.state == 'PENDING':
+        return {"task_id": task_id, "status": "Task is still processing"}
+    elif task_result.state == 'SUCCESS':
+        return {"task_id": task_id, "status": "Task completed", "result": task_result.result}
+    else:
+        return {"task_id": task_id, "status": task_result.state}
 
 
 @router.post("/mol/upload", summary="Reading molecules from CSV file",
