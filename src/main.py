@@ -38,15 +38,13 @@ molecules = {
 }
 # In-memory storage for molecules. For better testing experience there are some values in the list
 
+
 @app.get("/", tags=["Server"])
 def get_server():
     return {"server_id": getenv("SERVER_ID", "1")}
 
 
-
-
-app.include_router(molecule_router)
-
+app.include_router(molecule_router)  # include molecule router
 
 
 @app.post("/molecules", status_code=status.HTTP_201_CREATED, tags=["molecules"], summary="Create a molecule",
@@ -171,10 +169,6 @@ async def upload_molecules(file: UploadFile = File(...)):
     return {"message": "Molecules uploaded successfully.", "molecules":
             [{"identifier": k, **v} for k, v in new_molecules.items()]}
 
-
-
-
-app.include_router(molecule_router)
 
 if __name__ == "__main__":
     import uvicorn

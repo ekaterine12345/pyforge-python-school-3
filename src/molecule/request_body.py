@@ -7,7 +7,6 @@ class Molecule(BaseModel):
     smiles: str
 
 
-
 class MoleculeUpdate(BaseModel):
     name: Optional[str] = None
     smiles: Optional[str] = None

@@ -1,0 +1,114 @@
+2024-09-05 18:25:54,683 - INFO - postgresql+asyncpg://admin:password@postgres:5432/molecules_db
+2024-09-05 18:26:21,243 - INFO - 
+
+2024-09-05 18:26:21,270 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:26:21,364 - DEBUG - cache_key=get_molecules:None; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '2': {'identifier': 2, 'name': 'Glucose', 'smiles': 'C6H12O6'}, '4': {'identifier': 4, 'name': 'Lactic Acid', 'smiles': 'C3H6O3'}, '5': {'identifier': 5, 'name': 'Citric Acid', 'smiles': 'C6H8O7'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}}
+2024-09-05 18:26:58,606 - INFO - 
+
+2024-09-05 18:26:58,620 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:26:58,634 - DEBUG - cache_key=get_molecules:5; cached_result=None
+2024-09-05 18:26:58,654 - INFO - In the dao.py file - get_all_molecules function; limit = 5 [2]
+2024-09-05 18:26:58,655 - INFO - in the dao.py file - cls.model = <class 'src.molecule.models.Molecule'>
+2024-09-05 18:26:58,663 - INFO - In the dao.py file - query - SELECT molecules.identifier, molecules.name, molecules.smiles, molecules.created_at, molecules.updated_at 
+FROM molecules
+2024-09-05 18:27:02,173 - INFO - in dao.py file - molecules - <sqlalchemy.engine.result.ChunkedIteratorResult object at 0x7fa1fd776450>
+2024-09-05 18:27:02,185 - INFO - Molecule Molecule(identifier=1, name='Water', smiles='O')
+2024-09-05 18:27:02,189 - INFO - Molecule Molecule(identifier=2, name='Glucose', smiles='C6H12O6')
+2024-09-05 18:27:02,195 - INFO - Molecule Molecule(identifier=4, name='Lactic Acid', smiles='C3H6O3')
+2024-09-05 18:27:02,196 - INFO - Molecule Molecule(identifier=5, name='Citric Acid', smiles='C6H8O7')
+2024-09-05 18:27:02,204 - INFO - Molecule Molecule(identifier=6, name='Acetone', smiles='CC(=O)C')
+2024-09-05 18:27:02,233 - INFO - Molecules are [Molecule(identifier=1, name='Water', smiles='O'), Molecule(identifier=2, name='Glucose', smiles='C6H12O6'), Molecule(identifier=4, name='Lactic Acid', smiles='C3H6O3'), Molecule(identifier=5, name='Citric Acid', smiles='C6H8O7'), Molecule(identifier=6, name='Acetone', smiles='CC(=O)C')]
+2024-09-05 18:27:02,245 - INFO - Mo2024-09-05 18:27:12,152 - INFO - 
+
+2024-09-05 18:27:12,167 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:27:12,171 - DEBUG - cache_key=get_molecules:5; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '2': {'identifier': 2, 'name': 'Glucose', 'smiles': 'C6H12O6'}, '4': {'identifier': 4, 'name': 'Lac2024-09-05 18:28:03,843 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-05 18:28:03,860 - DEBUG - cache_key=get_molecule:1; cached_result=No2024-09-05 18:28:10,052 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-052024-09-05 18:28:17,902 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-05 18:28:17,922 - D2024-09-05 18:29:21,161 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-05 18:29:21,168 - DEBUG - cache_key=get_molecule:5; cached_res2024-09-05 18:30:05,110 - INFO - 
+Inside the add_molecule() funct2024-09-05 18:30:31,984 - INFO - 
+
+2024-09-05 18:30:32,042 - INFO - Inside the get_molecules() function in router.py 2024-09-05 18:30:41,853 - INFO - 
+
+2024-09-05 18:30:41,859 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:30:41,883 - DEBUG - cache_key=get_molecules:None; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '2': {'identifier': 2, 'name': 'Glucose', 'smiles': 'C6H12O6'}, '4': {'identifier': 4, 'name': 'Lactic Acid', 'smiles': 'C3H6O3'}, '5': {'identifier': 5, 'name': 'Citric Acid', 'smiles': 'C6H8O7'}, '6': {'ident2024-09-05 18:30:58,462 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-05 18:30:58,468 - DEBU2024-09-05 18:31:12,456 - INFO - 
+
+2024-09-05 18:31:12,470 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:31:12,476 -2024-09-05 18:31:40,678 - INFO - 
+
+2024-09-05 18:31:40,692 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:31:40,706 - DEBUG - cache_key=get_molecules:None; cached_result=None
+2024-09-05 18:31:40,728 - INFO - In the dao.py file - get_all_molecules function; limit = None [2]
+2024-09-05 18:31:40,733 - INFO - in the dao.py file - cls.model = <class 'src.molecule.models.Molecule'>
+2024-09-05 18:31:40,809 - IN2024-09-05 18:32:45,107 - INFO - 
+
+2024-09-05 18:32:45,110 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:32:45,130 - DEBUG - cache_key=get_molecules:None; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '2': {'identifier': 2, 'name': 'Glucose', 'smiles': 'C6H12O6'}, '4': {'identifier': 4, 'name': 'Lactic Acid', 'smiles': 'C3H6O3'}, '5': {'identifier': 5, 'name': 'Citric Acid', 'smiles': 'C6H8O7'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, '8': {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}}
+2024-09-05 18:33:47,352 - DEBUG - Calling on_part_begin with no data
+2024-09-05 18:33:47,391 - DEBUG - Calling on_header_field with data[42:61]
+2024-09-05 18:33:47,441 - DEBUG - Calling on_header_value with data[63:119]
+2024-09-05 18:33:47,455 - DEBUG - Calling on_header_end with no data
+2024-09-05 18:33:47,465 - DEBUG - Calling on_header_field with data[121:133]
+2024-09-05 18:33:47,471 - DEBUG - Calling on_header_value with data[135:143]
+2024-09-05 18:33:47,473 - DEBUG - Calling on_header_end with no data
+2024-09-05 18:33:47,483 - DEBUG - Calling on_headers_finished with no data
+2024-09-05 18:33:47,528 - DEBUG - Calling on_part_data with data[147:207]
+2024-09-05 18:33:47,538 - DEBUG - Calling on_part_data with data[0:2]
+2024-09-05 18:33:47,541 - DEBUG - Calling on_part_end with no data
+2024-09-05 18:33:47,542 - DEBUG - Calling on_end with no data
+2024-09-05 18:33:47,608 - INFO - 
+Inside the upload_molecules() function in router.py file
+2024-09-05 18:33:48,928 - INFO - Uploaded molecules successfully [Molecule(identifier=9, name='Caffeineeeeee', smiles='CN1CCCCCC=NC2=C1C(=O)N(C(=O)N2C)C')]
+2024-09-05 18:35:03,019 - INFO - 
+Inside the update_molecule() function in router.py file
+2024-09-05 18:35:03,124 - INFO - Provided molecule is molecule_update = name='Caf' smiles='OOOOOOOOO'
+2024-09-05 18:35:04,831 - INFO - Updated Molecule is Molecule(identifier=9, name='Caf', smiles='OOOOOOOOO')
+2024-09-05 18:35:37,116 - INFO - 
+Inside the delete_molecule() function in router.py file
+2024-09-05 18:35:37,199 - INFO - Molecule Molecule(identifier=9, name='Caf', smiles='OOOOOOOOO') with identifier = 9 got deleted
+2024-09-05 18:35:54,860 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-05 18:35:55,583 - DEBUG - cache_key=search:O; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, '8': {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}, '9': {'identifier': 9, 'name': 'Caffeineeeeee', 'smiles': 'CN1CCCCCC=NC2=C1C(=O)N(C(=O)N2C)C'}}
+2024-09-05 18:37:26,941 - INFO - 
+
+2024-09-05 18:37:26,956 - INFO - Inside the get_molecules() function in router.py file
+2024-09-05 18:37:26,973 - DEBUG - cache_key=get_molecules:None; cached_result=None
+2024-09-05 18:37:26,986 - INFO - In the dao.py file - get_all_molecules function; limit = None [2]
+2024-09-05 18:37:26,989 - INFO - in the dao.py file - cls.model = <class 'src.molecule.models.Molecule'>
+2024-09-05 18:37:27,043 - INFO - In the dao.py file - query - SELECT molecules.identifier, molecules.name, molecules.smiles, molecules.created_at, molecules.updated_at 
+FROM molecules
+2024-09-05 18:37:27,057 - INFO - in dao.py file - molecules - <sqlalchemy.engine.result.ChunkedIteratorResult object at 0x7fa1fcb07810>
+2024-09-05 18:37:27,541 - INFO - Molecule Molecule(identifier=1, name='Water', smiles='O')
+2024-09-05 18:37:27,548 - INFO - Molecule Molecule(identifier=2, name='Glucose', smiles='C6H12O6')
+2024-09-05 18:37:27,550 - INFO - Molecule Molecule(identifier=4, name='Lactic Acid', smiles='C3H6O3')
+2024-09-05 18:37:27,554 - INFO - Molecule Molecule(identifier=5, name='Citric Acid', smiles='C6H8O7')
+2024-09-05 18:37:27,555 - INFO - Molecule Molecule(identifier=6, name='Acetone', smiles='CC(=O)C')
+2024-09-05 18:37:27,556 - INFO - Molecule Molecule(identifier=7, name='Formaldehyde', smiles='C=O')
+2024-09-05 18:37:27,556 - INFO - Molecule Molecule(identifier=8, name='Ethanol', smiles='CCO')
+2024-09-05 18:37:27,558 - INFO - Molecules are [Molecule(identifier=1, name='Water', smiles='O'), Molecule(identifier=2, name='Glucose', smiles='C6H12O6'), Molecule(identifier=4, name='Lactic Acid', smiles='C3H6O3'), Molecule(identifier=5, name='Citric Acid', smiles='C6H8O7'), Molecule(identifier=6, name='Acetone', smiles='CC(=O)C'), Molecule(identifier=7, name='Formaldehyde', smiles='C=O'), Molecule(identifier=8, name='Ethanol', smiles='CCO')]
+2024-09-05 18:37:27,855 - INFO - Molecules for limit = None are molecules_dicts = {1: {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, 2: {'identifier': 2, 'name': 'Glucose', 'smiles': 'C6H12O6'}, 4: {'identifier': 4, 'name': 'Lactic Acid', 'smiles': 'C3H6O3'}, 5: {'identifier': 5, 'name': 'Citric Acid', 'smiles': 'C6H8O7'}, 6: {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, 7: {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, 8: {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}}
+2024-09-05 18:38:05,262 - INFO - 
+Inside the delete_molecule() function in router.py file
+2024-09-05 18:38:05,323 - DEBUG - Molecule with identifier = 9 was not found
+2024-09-05 18:38:26,837 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-05 18:38:26,846 - DEBUG - cache_key=search:O; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, '8': {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}, '9': {'identifier': 9, 'name': 'Caffeineeeeee', 'smiles': 'CN1CCCCCC=NC2=C1C(=O)N(C(=O)N2C)C'}}
+2024-09-05 18:40:10,296 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-05 18:40:10,321 - DEBUG - cache_key=search:O; cached_result=None
+2024-09-05 18:40:11,427 - INFO - Matched molecules for substructure = O are [Molecule(identifier=1, name='Water', smiles='O'), Molecule(identifier=6, name='Acetone', smiles='CC(=O)C'), Molecule(identifier=7, name='Formaldehyde', smiles='C=O'), Molecule(identifier=8, name='Ethanol', smiles='CCO')]
+2024-09-05 18:40:11,471 - INFO - Matched molecules for substructure = O are matched_molecules_dicts = {1: {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, 6: {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, 7: {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, 8: {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}}
+: 'O'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, '8': {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}, '9': {'identifier': 9, 'name': 'Caffeineeeeee', 'smiles': 'CN1CCCCCC=NC2=C1C(=O)N(C(=O)N2C)C'}}
+2024-09-05 18:39:46,941 - INFO - 
+Inside the get_molecule() function in router.py file
+2024-09-05 18:39:46,966 - DEBUG - cache_key=get_molecule:9; cached_result=None
+2024-09-05 18:39:48,949 - DEBUG - Molecule with identifier = 9 was not found
+2024-09-05 18:40:18,755 - INFO - 
+Inside the substructure_search() function in router.py file
+2024-09-05 18:40:18,788 - DEBUG - cache_key=search:O; cached_result={'1': {'identifier': 1, 'name': 'Water', 'smiles': 'O'}, '6': {'identifier': 6, 'name': 'Acetone', 'smiles': 'CC(=O)C'}, '7': {'identifier': 7, 'name': 'Formaldehyde', 'smiles': 'C=O'}, '8': {'identifier': 8, 'name': 'Ethanol', 'smiles': 'CCO'}}
