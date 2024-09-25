@@ -1,5 +1,6 @@
 from os import getenv
 from fastapi import FastAPI, HTTPException, status, UploadFile, File
+from src.molecule.router import router as molecule_router
 from rdkit import Chem
 from io import StringIO
 import csv
@@ -160,6 +161,8 @@ async def upload_molecules(file: UploadFile = File(...)):
 def get_server():
     return {"server_id": getenv("SERVER_ID", "1")}
 
+
+app.include_router(molecule_router)
 
 if __name__ == "__main__":
     import uvicorn
