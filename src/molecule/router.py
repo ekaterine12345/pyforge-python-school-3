@@ -9,9 +9,11 @@ import os
 from typing import Iterator, Optional
 import redis
 import json
+from src.molecule.celery_tasks import substructure_search_task
+from celery.result import AsyncResult
+from src.molecule.celery_worker import celery
+from src.molecule.redis_utils import redis_client, get_cached_result, set_cache
 
-# Connect to Redis
-redis_client = redis.Redis(host='redis', port=6379, db=0)
 
 router = APIRouter(tags=["Molecules"])
 # logging.basicConfig(level=logging.INFO, filename="logs.log", filemode="w")
@@ -21,17 +23,6 @@ logging.basicConfig(
     filemode="w",  # Overwrites the file every time the program runs
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-
-
-def get_cached_result(key: str):
-    result = redis_client.get(key)
-    if result:
-        return json.loads(result)
-    return None
-
-
-def set_cache(key: str, value: dict, expiration: int = 60):
-    redis_client.setex(key, expiration, json.dumps(value))
 
 
 @router.post("/mol/molecules", status_code=status.HTTP_201_CREATED, summary="Create a molecule",
@@ -136,34 +127,21 @@ async def delete_molecule(identifier: int):
             response_description="Substructure search got performed")
 async def substructure_search(substructure: str):
     logging.info("\nInside the substructure_search() function in router.py file")
-    cache_key = f"search:{substructure}"
-    cached_result = get_cached_result(cache_key)
+    # Trigger Celery task for substructure search
+    task = substructure_search_task.delay(substructure)
+    # matched_molecules = task.get()  # Wait for the task result
+    return {"task_id": task.id, "status": task.status}
 
-    logging.debug(f"cache_key={cache_key}; cached_result={cached_result}")
 
-    if cached_result is not None:
-        return {"source": "cache", "data": cached_result}
-
-    matched_molecules = await MoleculeDao.substructure_search(substructure)
-    if matched_molecules is None:
-        logging.debug(f"Molecules with substructure = {substructure} is not correct")
-        raise HTTPException(status_code=400, detail="Invalid substructure SMILES")
-
-    if not matched_molecules:
-        logging.debug(f"Molecules with substructure = {substructure} was not found")
-        set_cache(cache_key, {}, expiration=120)
-        return {"source": "database", "data": []}
-
-    logging.info(f"Matched molecules for substructure = {substructure} are {matched_molecules}")
-
-    # Convert Molecule objects to a dictionary with identifier as the key
-    matched_molecules_dicts = {molecule.identifier: molecule.to_dict() for molecule in matched_molecules}
-
-    logging.info(f"Matched molecules for substructure = {substructure} are "
-                 f"matched_molecules_dicts = {matched_molecules_dicts}")
-
-    set_cache(cache_key, matched_molecules_dicts, expiration=300)
-    return {"source": "database", "data": list(matched_molecules_dicts.values())}
+@router.get("/mol/tasks/{task_id}")
+async def get_task_result(task_id: str):
+    task_result = AsyncResult(task_id, app=celery)
+    if task_result.state == 'PENDING':
+        return {"task_id": task_id, "status": "Task is still processing"}
+    elif task_result.state == 'SUCCESS':
+        return {"task_id": task_id, "status": "Task completed", "result": task_result.result}
+    else:
+        return {"task_id": task_id, "status": task_result.state}
 
 
 @router.post("/mol/upload", summary="Reading molecules from CSV file",
