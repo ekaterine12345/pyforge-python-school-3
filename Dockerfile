@@ -3,14 +3,13 @@ FROM continuumio/miniconda3
 # Install necessary system dependencies for psycopg2 and other packages
 RUN apt-get update && apt-get install -y libpq-dev gcc
 
-# Create a conda environment file to install RDKit and other packages
-COPY environment.yml /tmp/environment.yml
-
-# Update conda to the latest version and configure solver options for faster environment solving
+# Install mamba and update conda in separate steps to avoid memory overload
 RUN conda update -n base -c defaults conda && \
-    conda config --set channel_priority strict && \
-    conda install mamba -n base -c conda-forge && \
-    mamba env create -f /tmp/environment.yml
+    conda install mamba -n base -c conda-forge
+
+# Create the environment using mamba in a separate step
+COPY environment.yml /tmp/environment.yml
+RUN mamba env create -f /tmp/environment.yml
 
 # Set the working directory
 WORKDIR /app
