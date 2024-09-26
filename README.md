@@ -1,5 +1,34 @@
 # Python Summer School 2024
 
+## AWS EC2 Deployment (using S3) - FastAPI Molecules Project
+
+## Workflow Overview
+The GitHub Actions workflow is triggered on every push to the main branch. It performs the following steps:
+1. Runs tests and code quality checks (using pytest and flake8).
+2. Downloads the application code from S3 Bucket.
+3. Establishes an SSH connection to the EC2 instance using the `appleboy/ssh-action`.
+4. Installs Docker and Docker Compose if not already installed.
+6. Starts the application using Docker Compose.
+
+## Environment Setup
+### IAM Credentials
+I use GitHub Secrets to store AWS credentials:
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+
+### EC2 SSH Access
+- `EC2_HOST`: The public IP address of the EC2 instance.
+- `EC2_USER`: The SSH username
+- `EC2_SSH_KEY`: The private SSH key used to access my EC2 instance.
+
+## Application Deployment
+The application is deployed using Docker Compose. The following services are included:
+- `web1` and `web2`: Two FastAPI instances.
+- `nginx`: Nginx proxy for load balancing.
+- `postgres`: PostgreSQL database.
+- `redis`: Redis for caching.
+- `celery_worker`: Celery worker for background tasks.
+
 ## Substructure search
 
 Substructure search of chemical compounds is a crucial tool in cheminformatics, enabling researchers to identify and analyze chemical structures containing specific substructures. This method is widely applied in various fields of chemistry, including drug discovery, materials science, and environmental research. Substructure search helps scientists and engineers identify compounds with desired properties, predict reactivity, and understand the mechanisms of chemical reactions.
