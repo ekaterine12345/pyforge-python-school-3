@@ -5,3 +5,11 @@ hw
 images
 nginx
 tests
+__pycache__/
+*.pyc
+*.pyo
+.git
+.venv
+node_modules/
+tmp/
+
