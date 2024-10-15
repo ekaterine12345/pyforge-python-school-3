@@ -38,3 +38,7 @@ psycopg2-binary
 redis[asyncio]
 celery[redis]
 redis
+pandas
+openpyxl
+boto3
+minio
