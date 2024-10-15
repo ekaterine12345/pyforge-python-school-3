@@ -1,0 +1,14 @@
+FROM apache/airflow:2.7.0
+
+# Copy constraints ir order to prevent dependency conflicts
+COPY constraints.txt /constraints.txt
+
+# Install Apache Airflow with the constraints
+RUN pip install --no-cache-dir "apache-airflow==2.7.0" --constraint /constraints.txt
+
+# Copy DAGs and plugins
+COPY ./dags /opt/airflow/dags
+
+
+# Set the working directory for Airflow
+WORKDIR /opt/airflow
