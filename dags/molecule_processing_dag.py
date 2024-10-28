@@ -15,7 +15,7 @@ bucket_name = "airflow"
 
 # Default arguments for the DAG
 default_args = {
-    'owner': 'coder2j',
+    'owner': 'ekaterine',
     'retries': 5,
     'retry_delay': timedelta(minutes=10)
 }
