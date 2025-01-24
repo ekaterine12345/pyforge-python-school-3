@@ -1,4 +1,5 @@
 # Python Summer School 2024
+This Python FastAPI program can perform CRUD operations for molecules, perform substructure search based on the specified substructure and also add molecules from an uploaded CSV file. The application is containerized using Docker for easy deployment and scalability. It is thoroughly tested using Pytest to ensure robust performance.Additionally, automated testing is integrated using GitHub Actions CI, static code analysis is enforced with flake8, and continuous feedback is provided to maintain code quality. The program also has a PostgreSQL database for storing data and Alembic for migration. The application uses logging to track the actions and Iterators. The application has implemented Redis for caching and higher performance and Celery to speed up queries. When the AWS EC2 instance is started it is possible to automatically copy the content of this repository to the instance and make it run online.
 
 ## AWS EC2 Deployment (using S3) - FastAPI Molecules Project
 
